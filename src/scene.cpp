@@ -1,5 +1,10 @@
 #include "scene.hpp"
 
+// Scenes
+#include "mainmenu.hpp"
+#include "test1.hpp"
+#include "test2.hpp"
+
 Scene::Scene(Game& game) : game(game), currentState(UNINITIALIZED) {}
 Scene::~Scene() {}
 
@@ -9,8 +14,8 @@ void Scene::onPause()  {}
 void Scene::onEnd()    {}
 
 void Scene::update(const sf::Time& deltatime) {}
-void Scene::draw(sf::RenderWindow& window)    {}
-void Scene::event(const sf::Event& event)     {}
+void Scene::draw(sf::RenderWindow& window) const {}
+void Scene::event(const sf::Event& event) {}
 
 void Scene::init() {
 	currentState = INITIALIZED;
@@ -43,6 +48,18 @@ Scene* Scene::create(Game& game, Scene::SceneType sceneType) {
 	Scene* scene;
 
 	switch (sceneType) {
+		case Scene::MAIN_MENU:
+			scene = new MainMenu(game);
+			break;
+
+		case Scene::TEST_1:
+			scene = new Test1(game);
+			break;
+
+		case Scene::TEST_2:
+			scene = new Test2(game);
+			break;
+
 		default:
 			scene = nullptr;
 			break;

@@ -1,9 +1,9 @@
 #include "game.hpp"
 
 /**
-  VGA - Curso SFML: Proyecto Final
+  Projecte final: Ponç, Guillem
 */
-int main(int arg, char* argv[]) {
+int main() {
   Game game;
   game.run();
 

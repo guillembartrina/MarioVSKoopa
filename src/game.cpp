@@ -1,8 +1,8 @@
 #include "game.hpp"
 
-const int Game::screenWidth    = 480;
-const int Game::screenHeight   = 480;
-const char Game::screenTitle[] = "Hello World";
+const int Game::screenWidth  = 480;
+const int Game::screenHeight = 480;
+const std::string Game::screenTitle = "Hello World";
 
 Game::Game()
   : activeScene(nullptr), backgroundScene(nullptr) {}
@@ -38,23 +38,28 @@ void Game::init() {
   window.create(sf::VideoMode(screenWidth, screenHeight), screenTitle);
   window.setKeyRepeatEnabled(false);
 
+  Scene* scene = Scene::create(*this, Scene::MAIN_MENU);
+  setActiveScene(scene);
+
   clk.restart();
 }
 
 void Game::mainLoop() {
   while (window.isOpen()) {
+    // Gestion de eventos
+    events();
+    
     // Logica de estado
     update();
 
     // Logica de dibujo
     draw();
 
-    // Gestion de eventos
-    events();
-
     // Gestion de escenas
     scene();
   }
+
+  std::cout << "Exit main loop" << std::endl;
 }
 
 void Game::update() {

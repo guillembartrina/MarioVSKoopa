@@ -6,6 +6,8 @@
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
 
+#include <iostream>
+
 #include "scene.hpp"
 
 class Game  {
@@ -21,7 +23,7 @@ public:
 private:
   static const int screenWidth;
   static const int screenHeight;
-  static const char screenTitle[];
+  static const std::string screenTitle;
 
   sf::RenderWindow window;
   sf::Clock clk;

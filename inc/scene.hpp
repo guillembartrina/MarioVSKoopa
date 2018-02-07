@@ -19,7 +19,7 @@ public:
 	virtual void onEnd();
 
 	virtual void update(const sf::Time& deltatime);
-	virtual void draw(sf::RenderWindow& window);
+	virtual void draw(sf::RenderWindow& window) const;
 	virtual void event(const sf::Event& event);
 
 	void init();
@@ -39,7 +39,9 @@ public:
 	Scene::SceneState getCurrentState() const;
 
 	enum SceneType {
-		NO_SCENE
+		MAIN_MENU,
+		TEST_1,
+		TEST_2
 	};
 	static Scene* create(Game& game, Scene::SceneType sceneType);
 
