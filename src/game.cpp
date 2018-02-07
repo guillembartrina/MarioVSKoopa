@@ -1,7 +1,7 @@
 #include "game.hpp"
 
-const int Game::screenWidth  = 480;
-const int Game::screenHeight = 480;
+const int Game::screenWidth  = 1000;
+const int Game::screenHeight = 888;
 const std::string Game::screenTitle = "Hello World";
 
 Game::Game()
@@ -36,6 +36,7 @@ void Game::setBackgroundScene(Scene* scene) {
 
 void Game::init() {
   window.create(sf::VideoMode(screenWidth, screenHeight), screenTitle);
+  window.setFramerateLimit(60);
   window.setKeyRepeatEnabled(false);
 
   Scene* scene = Scene::create(*this, Scene::MAIN_MENU);

@@ -1,12 +1,14 @@
 #ifndef TEST1_HPP
 #define TEST1_HPP
 
-#include "scene.hpp"
-#include "game.hpp"
 #include <iostream>
 
+#include "scene.hpp"
+#include "game.hpp"
+#include "koopa.hpp"
+
 class Test1 : public Scene {
-public:
+	public:
 	Test1(Game& game);
 	~Test1() final;
 
@@ -16,6 +18,17 @@ public:
 	void onEnd() final;
 
 	void event(const sf::Event& event) final;
+	void update(const sf::Time& deltatime);
+	void draw(sf::RenderWindow& window) const;
+
+	private:
+
+	//Characters	
+	Koopa koopa;
+
+	//Map
+	sf::FloatRect floor;
+
 };
 
 #endif

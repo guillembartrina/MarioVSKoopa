@@ -6,6 +6,7 @@
 
 class AnimatedSprite : public sf::Sprite {
 public:
+	AnimatedSprite();
 	AnimatedSprite(const sf::Texture& texture, Animation* animation);
 
 	void setAnimation(Animation* animation);

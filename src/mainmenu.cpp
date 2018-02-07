@@ -95,7 +95,7 @@ void MainMenu::event(const sf::Event& event) {
 void MainMenu::drawTexts(sf::RenderWindow& window) const {
   sf::Text text;
   text.setFont(font);
-  text.setColor(FONT_COLOR);
+  text.setFillColor(FONT_COLOR);
   text.setScale(FONT_SCALE, FONT_SCALE);
 
   // Draw title
