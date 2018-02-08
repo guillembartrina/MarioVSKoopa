@@ -8,7 +8,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "animation.hpp"
-#include "animatedSprite.hpp"
+#include "animatedsprite.hpp"
 
 
 class Koopa
