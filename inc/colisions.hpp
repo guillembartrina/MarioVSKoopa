@@ -12,10 +12,10 @@ public:
 
 	void addColision(const sf::FloatRect& colision);
 	void clearColisions();
+	unsigned int getNumColisions();
 
 	std::vector<sf::FloatRect> getColisions();
 	sf::FloatRect getColision(unsigned int num);
-	int checkColisions(const sf::FloatRect& obj);
 
 private:
 	std::vector<sf::FloatRect> rects;

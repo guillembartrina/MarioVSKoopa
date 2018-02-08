@@ -17,6 +17,11 @@ void Colisions::clearColisions()
     rects.clear();
 }
 
+unsigned int Colisions::getNumColisions()
+{
+    return rects.size();
+}
+
 std::vector<sf::FloatRect> Colisions::getColisions()
 {
     return rects;
@@ -24,29 +29,12 @@ std::vector<sf::FloatRect> Colisions::getColisions()
 
 sf::FloatRect Colisions::getColision(unsigned int num)
 {
-    if(num > rects.size())
+    if(num >= rects.size())
     {
         return sf::FloatRect(0, 0, 0, 0);
     }
     else
     {
-        return rects[num-1];
+        return rects[num];
     }
-}
-
-int Colisions::checkColisions(const sf::FloatRect& obj)
-{
-    if(rects.empty()) 
-    {
-        return -1;
-    }
-    else
-    {
-        for(unsigned int i = 0; i < rects.size(); ++i)
-        {
-            if(rects[i].intersects(obj)) return i;
-        }
-    }
-
-    return -1;
 }
