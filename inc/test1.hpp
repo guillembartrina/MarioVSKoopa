@@ -28,6 +28,9 @@ class Test1 : public Scene {
 	Koopa koopa;
 
 	//Map
+	sf::Texture colisionTexture;
+	sf::Sprite colision;
+	std::vector<sf::Sprite> colisionsS;
 	Colisions colisions;
 	sf::FloatRect floorC;
 	sf::FloatRect capC;

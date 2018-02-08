@@ -7,10 +7,17 @@ void Test1::onInit() {
 	Scene::onInit();
 
 	//Map init
+	if(!colisionTexture.loadFromFile("res/img/colisionTexture.png"))
+    {
+        std::cout << "Error loading <colisionTexture.png>." << std::endl;
+    }
+
+	colision.setTexture(colisionTexture);
+
     if(!castleTexture.loadFromFile("res/img/castleTexture.png"))
     {
         std::cout << "Error loading <castleTexture.png>." << std::endl;
-    }
+	}
 
     castle.setTexture(castleTexture);
     castle.setTextureRect(sf::IntRect(0, 0, 1000, 888));
@@ -31,11 +38,19 @@ void Test1::onInit() {
 	flag.setAnimation(&flagAnimation);
 	
 	//Colisions
-	floorC = sf::FloatRect(0, 500, 1000, 100);
-	capC = sf::FloatRect(0, 400, 200, 100);
+	floorC = sf::FloatRect(0, 800, 1000, 88);
+	capC = sf::FloatRect(0, 500, 200, 100);
 
 	colisions.addColision(floorC);
 	colisions.addColision(capC);
+
+	for(unsigned int i = 0; i < colisions.getNumColisions(); ++i)
+	{
+		sf::FloatRect tmp = colisions.getColision(i);
+		colision.setPosition(tmp.left, tmp.top);
+		colision.setTextureRect(sf::IntRect(0, 0, tmp.width, tmp.height));
+		colisionsS.push_back(colision);
+	}
 
 	//Char init
 	koopa.init();
@@ -99,6 +114,10 @@ void Test1::event(const sf::Event& event)
 			if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) koopa.setMovement(Koopa::Direction::RIGHT, Koopa::Velocity::WALK);
 			break;
 
+			case sf::Keyboard::D:
+			koopa.debug = !koopa.debug;
+			break;
+
 			default:
 			break;
 		}
@@ -108,8 +127,8 @@ void Test1::event(const sf::Event& event)
 void Test1::update(const sf::Time& deltatime)
 {
 	Scene::update(deltatime);
-	koopa.update(deltatime);
 	flag.update(deltatime);
+	koopa.update(deltatime);
 }
 
 void Test1::draw(sf::RenderWindow& window) const
@@ -117,5 +136,9 @@ void Test1::draw(sf::RenderWindow& window) const
 	Scene::draw(window);
 	window.draw(castle);
 	window.draw(flag);
+	for(const sf::Sprite& col : colisionsS)
+	{
+		window.draw(col);
+	}
 	koopa.draw(window);
 }
