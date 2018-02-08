@@ -2,7 +2,7 @@
 
 const int Game::screenWidth  = 1000;
 const int Game::screenHeight = 888;
-const std::string Game::screenTitle = "Hello World";
+const std::string Game::screenTitle = "Koopa vs Mario";
 
 Game::Game()
   : activeScene(nullptr), backgroundScene(nullptr) {}

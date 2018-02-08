@@ -78,11 +78,13 @@ void Koopa::update(const sf::Time& deltatime)
 
     koopa.move(vel * float(deltatime.asMilliseconds()));
 
-    head.setPosition(koopa.getPosition().x + bodyParts[HEAD].left, koopa.getPosition().y + bodyParts[HEAD].top);
-    feet.setPosition(koopa.getPosition().x + bodyParts[FEET].left, koopa.getPosition().y + bodyParts[FEET].top);
-    l_body.setPosition(koopa.getPosition().x + bodyParts[L_BODY].left, koopa.getPosition().y + bodyParts[L_BODY].top);
-    r_body.setPosition(koopa.getPosition().x + bodyParts[R_BODY].left, koopa.getPosition().y + bodyParts[R_BODY].top);
-    
+    if(debug)
+    {
+        head.setPosition(koopa.getPosition().x + bodyParts[HEAD].left, koopa.getPosition().y + bodyParts[HEAD].top);
+        feet.setPosition(koopa.getPosition().x + bodyParts[FEET].left, koopa.getPosition().y + bodyParts[FEET].top);
+        l_body.setPosition(koopa.getPosition().x + bodyParts[L_BODY].left, koopa.getPosition().y + bodyParts[L_BODY].top);
+        r_body.setPosition(koopa.getPosition().x + bodyParts[R_BODY].left, koopa.getPosition().y + bodyParts[R_BODY].top);
+    }
 
     checkColisions();
 }
@@ -175,6 +177,17 @@ void Koopa::checkColisions()
         koopa.setPosition(colisionRects[rCol].left-koopaW/2.f, koopa.getPosition().y);
     }
     
+}
+
+int Koopa::getLifes()
+{
+    return life;
+}
+
+void Koopa::touched()
+{
+    --life;
+    if(life <= 0) koopa.setRotation(90.f);
 }
 
 void Koopa::setMovement(Koopa::Direction direction, Koopa::Velocity velocity)

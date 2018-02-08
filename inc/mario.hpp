@@ -27,7 +27,11 @@ class Mario
     
 
     void setColisions(const std::vector<sf::FloatRect>& rects);
+    unsigned int getColisionIndex(const sf::FloatRect& box);
     void checkColisions();
+
+    int getLifes();
+    void touched();
 
 
     enum Direction { RIGHT = 0, LEFT };
@@ -35,6 +39,9 @@ class Mario
 
     void setMovement(Mario::Direction direction, Mario::Velocity velocity);
     void jump();
+
+
+    bool debug = true;
 
 
     private:
@@ -50,6 +57,11 @@ class Mario
     enum Body { HEAD = 0, FEET, R_BODY, L_BODY, NUM_B };
 
     sf::FloatRect bodyParts[NUM_B];
+
+    sf::RectangleShape head;
+    sf::RectangleShape feet;
+    sf::RectangleShape l_body;
+    sf::RectangleShape r_body;
 
     const int maxLife = 10;
     int life;

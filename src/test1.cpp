@@ -6,6 +6,24 @@ Test1::~Test1() {}
 void Test1::onInit() {
 	Scene::onInit();
 
+	if(!font.loadFromFile("res/fonts/font.ttf"))
+    {
+        std::cout << "Error loading <font.ttf>." << std::endl;
+    }
+
+	kLife.setFont(font);
+	kLife.setPosition(800, 50);
+	kLife.setString("KOOPA ");
+	kLife.setFillColor(sf::Color::Black);
+	mLife.setFont(font);
+	mLife.setPosition(800, 100);
+	mLife.setString("MARIO ");
+	mLife.setFillColor(sf::Color::Black);
+	kLifeN.setFont(font);
+	kLifeN.setPosition(900, 50);
+	mLifeN.setFont(font);
+	mLifeN.setPosition(900, 100);
+
 	//Map init
 	if(!colisionTexture.loadFromFile("res/img/colisionTexture.png"))
     {
@@ -55,6 +73,9 @@ void Test1::onInit() {
 	//Char init
 	koopa.init();
 	koopa.setColisions(colisions.getColisions());
+
+	mario.init();
+	mario.setColisions(colisions.getColisions());
 }
 
 void Test1::onResume() {
@@ -92,6 +113,25 @@ void Test1::event(const sf::Event& event)
 			koopa.jump();
 			break;
 
+			case sf::Keyboard::D:
+			mario.setMovement(Mario::Direction::RIGHT, Mario::Velocity::WALK);
+			break;
+
+			case sf::Keyboard::A:
+			mario.setMovement(Mario::Direction::LEFT, Mario::Velocity::WALK);
+			break;
+
+			case sf::Keyboard::W:
+			mario.jump();
+			break;
+
+			case sf::Keyboard::P:
+			{
+				koopa.debug = !koopa.debug;
+				mario.debug = !mario.debug;
+				break;
+			}
+
 			default:
 			break;
 		}
@@ -115,7 +155,13 @@ void Test1::event(const sf::Event& event)
 			break;
 
 			case sf::Keyboard::D:
-			koopa.debug = !koopa.debug;
+			mario.setMovement(Mario::Direction::RIGHT, Mario::Velocity::STOP);
+			if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)) mario.setMovement(Mario::Direction::LEFT, Mario::Velocity::WALK);
+			break;
+
+			case sf::Keyboard::A:
+			mario.setMovement(Mario::Direction::LEFT, Mario::Velocity::STOP);
+			if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)) mario.setMovement(Mario::Direction::RIGHT, Mario::Velocity::WALK);
 			break;
 
 			default:
@@ -126,9 +172,12 @@ void Test1::event(const sf::Event& event)
 
 void Test1::update(const sf::Time& deltatime)
 {
+	kLifeN.setString(std::to_string(koopa.getLifes()));
+	mLifeN.setString(std::to_string(mario.getLifes()));
 	Scene::update(deltatime);
 	flag.update(deltatime);
 	koopa.update(deltatime);
+    mario.update(deltatime);
 }
 
 void Test1::draw(sf::RenderWindow& window) const
@@ -140,5 +189,11 @@ void Test1::draw(sf::RenderWindow& window) const
 	{
 		window.draw(col);
 	}
+
+	window.draw(kLife);
+	window.draw(kLifeN);
+	//window.draw(mLife);
+	//window.draw(mLifeN);
 	koopa.draw(window);
+	mario.draw(window);
 }

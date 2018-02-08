@@ -30,6 +30,9 @@ class Koopa
     unsigned int getColisionIndex(const sf::FloatRect& box);
     void checkColisions();
 
+    int getLifes();
+    void touched();
+
 
     enum Direction { RIGHT = 0, LEFT };
     enum Velocity { STOP = 0, WALK, RUN, NUM_V };
@@ -37,7 +40,6 @@ class Koopa
     void setMovement(Koopa::Direction direction, Koopa::Velocity velocity);
     void jump();
 
-    
     bool debug = false;
 
 

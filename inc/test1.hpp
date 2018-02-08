@@ -7,6 +7,7 @@
 #include "game.hpp"
 #include "colisions.hpp"
 #include "koopa.hpp"
+#include "mario.hpp"
 
 class Test1 : public Scene {
 	public:
@@ -24,8 +25,17 @@ class Test1 : public Scene {
 
 	private:
 
+	sf::Font font;
+
+	sf::Text kLife;
+	sf::Text mLife;
+
+	sf::Text kLifeN;
+	sf::Text mLifeN;
+
 	//Characters	
 	Koopa koopa;
+	Mario mario;
 
 	//Map
 	sf::Texture colisionTexture;

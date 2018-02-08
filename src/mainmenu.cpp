@@ -103,7 +103,7 @@
 	{
 	  sf::Text text;
 	  text.setFont(font);
-	  text.setColor(sf::Color::Green);
+	  text.setFillColor(sf::Color::Green);
 		text.setOutlineColor(sf::Color::Black);
 		text.setOutlineThickness(0.2f);
 		text.setStyle(sf::Text::Bold && sf::Text::Underlined);
@@ -115,7 +115,7 @@
   	window.draw(text);
 
 		// Draw options
-		text.setColor(sf::Color::White);
+		text.setFillColor(sf::Color::White);
 		text.setStyle(sf::Text::Bold);
 		text.setScale(3.f, 3.f);
 		text.setPosition(300, 370);
