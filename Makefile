@@ -12,8 +12,7 @@ LFLAGS = $(LIBS)
 _DEPS =
 DEPS  =$(patsubst %,$(INC)/%,$(_DEPS))
 
-_OBJ = main.o game.o scene.o animatedsprite.o animation.o koopa.o test1.o test2.o mainmenu.o colisions.o
-OBJ  = $(patsubst %,$(BIN)/%,$(_OBJ))
+OBJ  = $(patsubst $(SRC)/%.cpp,$(BIN)/%.o,$(wildcard $(SRC)/*.cpp))
 
 OUT  = main
 
