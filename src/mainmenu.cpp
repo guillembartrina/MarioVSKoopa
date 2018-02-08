@@ -1,61 +1,49 @@
 #include "mainmenu.hpp"
 
-const std::string MainMenu::FONT_FILE = "res/fonts/font.ttf";
-const float MainMenu::FONT_SCALE = 1.5f;
-const sf::Color MainMenu::FONT_COLOR = sf::Color::White;
-
-const sf::Vector2f MainMenu::PADDING = { 40.0f, 10.0f };
-const sf::Vector2f MainMenu::CURSOR_PADDING = { -40.0f, 15.0f };
-const float MainMenu::TITLE_MARGIN   = 80.0f;
-const float MainMenu::OPTIONS_MARGIN = 50.0f;
-
-const std::string MainMenu::TEXT_TITLE = "VGA - Curso SFML";
-const std::string MainMenu::TEXT_PLAY  = "PLAY!";
-const std::string MainMenu::TEXT_ABOUT = "ABOUT";
-const std::string MainMenu::TEXT_EXIT  = "EXIT";
-
-const std::string MainMenu::TEXTURE_CURSOR = "res/img/cursor.png";
-
 MainMenu::MainMenu(Game& game) : Scene(game) {}
 MainMenu::~MainMenu() {}
 
-void MainMenu::onInit() {
+void MainMenu::onInit() 
+{
 	Scene::onInit();
-	std::cout << "onInit: MainMenu" << std::endl;
-
-	font.loadFromFile(FONT_FILE);
-	textureCursor.loadFromFile(TEXTURE_CURSOR);
+	font.loadFromFile("res/fonts/font.ttf");
+	textureCursor.loadFromFile("res/img/cursor.png");
 
   cursorState = MainMenu::PLAY;
 }
 
-void MainMenu::onResume() {
+void MainMenu::onResume() 
+{
 	Scene::onResume();
-	std::cout << "onResume: MainMenu" << std::endl;
 }
 
-void MainMenu::onPause()  {
+void MainMenu::onPause()  
+{
 	Scene::onPause();
-	std::cout << "onPause: MainMenu" << std::endl;
 }
 
-void MainMenu::onEnd()    {
+void MainMenu::onEnd() 
+{
 	Scene::onEnd();
-	std::cout << "onEnd: MainMenu" << std::endl;
 }
 
-void MainMenu::update(const sf::Time& deltatime) {
+void MainMenu::update(const sf::Time& deltatime) 
+{
 
 }
 
-void MainMenu::draw(sf::RenderWindow& window) const {
+void MainMenu::draw(sf::RenderWindow& window) const 
+{
 	drawTexts(window);
 	drawCursor(window);
 }
 
-void MainMenu::event(const sf::Event& event) {
-	if (event.type == sf::Event::KeyPressed) {
-    switch (event.key.code) {
+void MainMenu::event(const sf::Event& event) 
+{
+	if (event.type == sf::Event::KeyPressed) 
+  {
+    switch (event.key.code) 
+    {
       case sf::Keyboard::Up:
         if (cursorState == MainMenu::PLAY)
           cursorState = MainMenu::EXIT;
@@ -75,13 +63,16 @@ void MainMenu::event(const sf::Event& event) {
         break;
 
       case sf::Keyboard::Return:
-      	if (cursorState == MainMenu::PLAY) {
+      	if (cursorState == MainMenu::PLAY) 
+        {
       		game.setBackgroundScene(Scene::create(game, Scene::TEST_1));
       		pause();
-      	} else if (cursorState == MainMenu::ABOUT) {
+      	} else if (cursorState == MainMenu::ABOUT) 
+        {
       		game.setBackgroundScene(Scene::create(game, Scene::TEST_2));
       		pause();
-      	} else if (cursorState == MainMenu::EXIT) {
+      	} else if (cursorState == MainMenu::EXIT) 
+        {
           end();
       	}
         break;
@@ -92,41 +83,41 @@ void MainMenu::event(const sf::Event& event) {
   }
 }
 
-void MainMenu::drawTexts(sf::RenderWindow& window) const {
+void MainMenu::drawTexts(sf::RenderWindow& window) const 
+{
   sf::Text text;
   text.setFont(font);
-  text.setFillColor(FONT_COLOR);
-  text.setScale(FONT_SCALE, FONT_SCALE);
+  text.setFillColor(sf::Color::White);
+  text.setScale(2.f, 2.f);
 
   // Draw title
-  text.move(PADDING);
-  text.setString(TEXT_TITLE);
+  text.setPosition(200, 100);
+  text.setString("KOOPA VS MARIO");
   window.draw(text);
 
   // Draw options
-  text.move(0, TITLE_MARGIN);
-  text.setString(TEXT_PLAY);
+  text.setPosition(300, 200);
+  text.setString("PLAY");
   window.draw(text);
-  text.move(0, OPTIONS_MARGIN);
-  text.setString(TEXT_ABOUT);
+  text.move(0, 100.f);
+  text.setString("ABOUT");
   window.draw(text);
-  text.move(0, OPTIONS_MARGIN);
-  text.setString(TEXT_EXIT);
+  text.move(0, 100.f);
+  text.setString("EXIT");
   window.draw(text);
 }
 
-void MainMenu::drawCursor(sf::RenderWindow& window) const {
+void MainMenu::drawCursor(sf::RenderWindow& window) const 
+{
   sf::Sprite sprite(textureCursor);
+  sprite.setColor(sf::Color::Magenta);
 
-  sprite.move(PADDING);
-  sprite.move(CURSOR_PADDING);
-  sprite.move(0, TITLE_MARGIN);
+  sprite.setPosition(250, 200);
 
   if (cursorState == MainMenu::ABOUT) {
-    sprite.move(0, OPTIONS_MARGIN);
+    sprite.move(0, 100);
   } else if (cursorState == MainMenu::EXIT) {
-    sprite.move(0, OPTIONS_MARGIN);
-    sprite.move(0, OPTIONS_MARGIN);
+    sprite.move(0, 200);
   }
 
   window.draw(sprite);

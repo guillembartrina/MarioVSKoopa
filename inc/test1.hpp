@@ -5,6 +5,7 @@
 
 #include "scene.hpp"
 #include "game.hpp"
+#include "colisions.hpp"
 #include "koopa.hpp"
 
 class Test1 : public Scene {
@@ -27,8 +28,16 @@ class Test1 : public Scene {
 	Koopa koopa;
 
 	//Map
+	Colisions colisions;
 	sf::FloatRect floor;
-
+	sf::FloatRect cap;
+	
+	sf::Texture castleTexture;
+	sf::Texture flagTexture;
+	sf::Sprite castle;
+	Animation flagAnimation;
+	AnimatedSprite flag;
+	
 };
 
 #endif

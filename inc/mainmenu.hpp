@@ -20,22 +20,9 @@ public:
 	void event(const sf::Event& event) final;
 
 private:
-	static const std::string FONT_FILE;
-  static const float FONT_SCALE;
-  static const sf::Color FONT_COLOR;
+
   sf::Font font;
 
-  static const sf::Vector2f PADDING;
-  static const sf::Vector2f CURSOR_PADDING;
-  static const float TITLE_MARGIN;
-  static const float OPTIONS_MARGIN;
-
-  static const std::string TEXT_TITLE;
-  static const std::string TEXT_PLAY;
-  static const std::string TEXT_ABOUT;
-  static const std::string TEXT_EXIT;
-
-  static const std::string TEXTURE_CURSOR;
   sf::Texture textureCursor;
 
   enum CursorState {

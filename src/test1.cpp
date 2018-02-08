@@ -1,19 +1,45 @@
 #include "test1.hpp"
 
-Test1::Test1(Game& game) : Scene(game)
-{
-
-}
+Test1::Test1(Game& game) : Scene(game) {}
 Test1::~Test1() {}
 
 void Test1::onInit() {
 	Scene::onInit();
 
+	//Map init
+    if(!castleTexture.loadFromFile("res/img/castleTexture.png"))
+    {
+        std::cout << "Error loading <castleTexture.png>." << std::endl;
+    }
+
+    castle.setTexture(castleTexture);
+    castle.setTextureRect(sf::IntRect(0, 0, 1000, 888));
+
+	if(!flagTexture.loadFromFile("res/img/flagTexture.png"))
+    {
+        std::cout << "Error loading <flagTexture.png>." << std::endl;
+    }
+
+	for(int i = 0; i < 3; ++i)
+	{
+		flagAnimation.addFrame(sf::IntRect(i*1000, 0, 1000, 888));
+	}
+
+	flagAnimation.setFrameTime(sf::seconds(0.2f));
+
+	flag.setTexture(flagTexture);
+	flag.setAnimation(&flagAnimation);
+	
+	//Colisions
+	floor = sf::FloatRect(0, 500, 1000, 100);
+	cap = sf::FloatRect(0, 400, 200, 100);
+
+	colisions.addColision(floor);
+	colisions.addColision(cap);
+
 	//Char init
 	koopa.init();
-	
-	//Map init
-	floor = sf::FloatRect(0, 500, 1000, 100);
+	koopa.setColisions(colisions.getColisions());
 }
 
 void Test1::onResume() {
@@ -80,10 +106,13 @@ void Test1::event(const sf::Event& event)
 
 void Test1::update(const sf::Time& deltatime)
 {
-	koopa.update(deltatime, floor);
+	koopa.update(deltatime);
+	flag.update(deltatime);
 }
 
 void Test1::draw(sf::RenderWindow& window) const
 {
+	window.draw(castle);
+	window.draw(flag);
 	koopa.draw(window);
 }
