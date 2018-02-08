@@ -9,9 +9,10 @@
 #include "koopa.hpp"
 #include "mario.hpp"
 
-class Test1 : public Scene {
-	public:
-	Test1(Game& game);
+class Test1 : public Scene
+{
+  public:
+	Test1(Game &game);
 	~Test1() final;
 
 	void onInit() final;
@@ -19,23 +20,22 @@ class Test1 : public Scene {
 	void onPause() final;
 	void onEnd() final;
 
-	void event(const sf::Event& event) final;
-	void update(const sf::Time& deltatime);
-	void draw(sf::RenderWindow& window) const;
+	void event(const sf::Event &event) final;
+	void update(const sf::Time &deltatime);
+	void draw(sf::RenderWindow &window) const;
 
-	private:
-
+  private:
 	sf::Font font;
 
-	sf::Text kLife;
-	sf::Text mLife;
+	sf::Text charLife;
+	sf::Text charLifeN;
 
-	sf::Text kLifeN;
-	sf::Text mLifeN;
-
-	//Characters	
+	//Characters
 	Koopa koopa;
 	Mario mario;
+
+	sf::Text koopaWin;
+	sf::Text marioWin;
 
 	//Map
 	sf::Texture colisionTexture;
@@ -44,13 +44,12 @@ class Test1 : public Scene {
 	Colisions colisions;
 	sf::FloatRect floorC;
 	sf::FloatRect capC;
-	
+
 	sf::Texture castleTexture;
 	sf::Texture flagTexture;
 	sf::Sprite castle;
 	Animation flagAnimation;
 	AnimatedSprite flag;
-	
 };
 
 #endif
