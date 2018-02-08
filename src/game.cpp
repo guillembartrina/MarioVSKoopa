@@ -35,7 +35,7 @@ void Game::setBackgroundScene(Scene* scene) {
 }
 
 void Game::init() {
-  window.create(sf::VideoMode(screenWidth, screenHeight), screenTitle);
+  window.create(sf::VideoMode(screenWidth, screenHeight), screenTitle, sf::Style::Close);
   window.setFramerateLimit(60);
   window.setKeyRepeatEnabled(false);
 

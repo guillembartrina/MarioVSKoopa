@@ -6,8 +6,23 @@
 	void MainMenu::onInit() 
 	{
 		Scene::onInit();
-		font.loadFromFile("res/fonts/font.ttf");
-		textureCursor.loadFromFile("res/img/cursor.png");
+		if(!font.loadFromFile("res/fonts/font.ttf"))
+		{
+			std::cout << "Error loading <font.ttf>." << std::endl;
+		}
+
+		if(!textureCursor.loadFromFile("res/img/cursor.png"))
+		{
+			std::cout << "Error loading <cursor.png>." << std::endl;
+		}
+
+		if(!castleTexture.loadFromFile("res/img/castleTexture.png"))
+		{
+			std::cout << "Error loading <castleTexture.png>." << std::endl;	
+		}
+
+		castle.setTexture(castleTexture);
+		castle.setColor(sf::Color(128, 128, 128));
 
 	  cursorState = MainMenu::PLAY;
 	}
@@ -34,6 +49,7 @@
 
 	void MainMenu::draw(sf::RenderWindow& window) const 
 	{
+		window.draw(castle);
 		drawTexts(window);
 		drawCursor(window);
 	}
@@ -87,37 +103,44 @@
 	{
 	  sf::Text text;
 	  text.setFont(font);
-	  text.setColor(sf::Color::White);
-  text.setScale(2.f, 2.f);
+	  text.setColor(sf::Color::Green);
+		text.setOutlineColor(sf::Color::Black);
+		text.setOutlineThickness(0.2f);
+		text.setStyle(sf::Text::Bold && sf::Text::Underlined);
+  	text.setScale(3.5f, 3.5f);
 
-  // Draw title
-  text.setPosition(200, 100);
-  text.setString("KOOPA VS MARIO");
-  window.draw(text);
+  	// Draw title
+  	text.setPosition(40, 100);
+  	text.setString("KOOPA VS MARIO");
+  	window.draw(text);
 
-  // Draw options
-  text.setPosition(300, 200);
-  text.setString("PLAY");
-  window.draw(text);
-  text.move(0, 100.f);
-  text.setString("ABOUT");
-  window.draw(text);
-  text.move(0, 100.f);
-  text.setString("EXIT");
-  window.draw(text);
+		// Draw options
+		text.setColor(sf::Color::White);
+		text.setStyle(sf::Text::Bold);
+		text.setScale(3.f, 3.f);
+		text.setPosition(300, 370);
+		text.setString("PLAY");
+		window.draw(text);
+		text.move(0, 100.f);
+		text.setString("ABOUT");
+		window.draw(text);
+		text.move(0, 100.f);
+		text.setString("EXIT");
+		window.draw(text);
 }
 
 void MainMenu::drawCursor(sf::RenderWindow& window) const 
 {
   sf::Sprite sprite(textureCursor);
-  sprite.setColor(sf::Color::Magenta);
+  sprite.setColor(sf::Color::Black);
+	sprite.setScale(1.5f, 1.5f);
 
-  sprite.setPosition(250, 200);
+  sprite.setPosition(230, 415);
 
   if (cursorState == MainMenu::ABOUT) {
-    sprite.move(0, 100);
+    sprite.move(0, 100.f);
   } else if (cursorState == MainMenu::EXIT) {
-    sprite.move(0, 200);
+    sprite.move(0, 200.f);
   }
 
   window.draw(sprite);

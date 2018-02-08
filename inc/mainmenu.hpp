@@ -25,6 +25,9 @@ private:
 
   sf::Texture textureCursor;
 
+  sf::Texture castleTexture;
+  sf::Sprite castle;
+
   enum CursorState {
     PLAY,
     ABOUT,
