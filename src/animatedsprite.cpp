@@ -1,7 +1,5 @@
 #include "animatedsprite.hpp"
 
-AnimatedSprite::AnimatedSprite() : sf::Sprite() {}
-
 AnimatedSprite::AnimatedSprite(const sf::Texture& texture,
 						       Animation* animation) 
 	: sf::Sprite(texture) {

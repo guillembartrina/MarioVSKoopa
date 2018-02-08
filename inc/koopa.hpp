@@ -27,11 +27,11 @@ class Koopa
     
 
     void setColisions(const std::vector<sf::FloatRect>& rects);
-    int getCurrentColision();     //REMOVE 
+    void checkColisions();
 
 
     enum Direction { RIGHT = 0, LEFT };
-    enum Velocity { STOP = 0, WALK, RUN };
+    enum Velocity { STOP = 0, WALK, RUN, NUM_V };
 
     void setMovement(Koopa::Direction direction, Koopa::Velocity velocity);
     void jump();
@@ -47,14 +47,9 @@ class Koopa
     const int koopaW = 32;
     const int koopaH = 48;
 
-    enum Body { HEAD = 0, FEET, R_BODY, L_BODY };
+    enum Body { HEAD = 0, FEET, R_BODY, L_BODY, NUM_B };
 
-    const std::vector<sf::FloatRect> bodyParts = {
-        sf::FloatRect(-koopaW/4.f, -koopaH, koopaW/2.f, koopaH/4.f),
-        sf::FloatRect(-koopaW/4.f, -koopaH/4.f, koopaW/2.f, koopaH/4.f),
-        sf::FloatRect(-koopaW/2.f, -koopaH*3/4.f, koopaW/4.f, koopaH/2.f),
-        sf::FloatRect(koopaW/4.f, -koopaH*3/4.f , koopaW/4.f, koopaH/2.f)
-    };
+    sf::FloatRect bodyParts[NUM_B];
 
     const int maxLife = 10;
     int life;
@@ -62,11 +57,7 @@ class Koopa
     bool jumping;
 
     const float jumpVel = 1.f;
-    const std::vector<double> velocities = {
-        0.f, //STOP 
-        0.3f, //WALK
-        0.6f //RUN
-    };
+    double velocities[NUM_V];
     sf::Vector2f vel;
 
     //Koopa graphics
@@ -74,7 +65,7 @@ class Koopa
     
     AnimatedSprite koopa;
     enum Animations { IDLE_RIGHT_A = 0, IDLE_LEFT_A, RIGHT_A, LEFT_A, /*IDLE_RUN_A, RUN_A,*/ NUM_A };
-    std::vector<Animation> animations;
+    Animation animations[NUM_A];
     
 
 };

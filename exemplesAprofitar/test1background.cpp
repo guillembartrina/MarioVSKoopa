@@ -1,6 +1,6 @@
 #include "test1.hpp"
 
-Test1::Test1(Game& game) : Scene(game), flag(flagTexture, &flagAnimation) {}
+Test1::Test1(Game& game) : Scene(game) {}
 Test1::~Test1() {}
 
 void Test1::onInit() {
@@ -31,15 +31,44 @@ void Test1::onInit() {
 	flag.setAnimation(&flagAnimation);
 	
 	//Colisions
-	floorC = sf::FloatRect(0, 500, 1000, 100);
-	capC = sf::FloatRect(0, 400, 200, 100);
+	floor = sf::FloatRect(0, 500, 1000, 100);
+<<<<<<< HEAD:src/test1.cpp
+	cap = sf::FloatRect(0, 400, 200, 100);
 
-	colisions.addColision(floorC);
-	colisions.addColision(capC);
+	colisions.addColision(floor);
+	colisions.addColision(cap);
 
 	//Char init
 	koopa.init();
 	koopa.setColisions(colisions.getColisions());
+=======
+	
+	
+	if (!texCastell.loadFromFile("res/img/castellPeach.png")) {		
+        std::cout << "Error loading <castellPeach.png>." << std::endl;
+	}	
+	
+    std::cout << "Error loading" << std::endl;
+	spCastell.setTexture(texCastell);	
+    spCastell.setTextureRect(sf::IntRect(0, 0, 1000, 888));
+	
+	if (!texBand.loadFromFile("res/img/banderesPeach.png")) {		
+        std::cout << "Error loading <banderesPeach.png>." << std::endl;
+	}	
+	
+	for (int i = 0; i < 3; i++) {
+		int posX1 = i * 1000;
+		banderesOnejant.addFrame({posX1, 0, 1000, 888});
+	}
+	
+	banderesOnejant.setFrameTime(sf::seconds(0.2f));
+	banderesOnejant.play();
+	spBand.setTexture(texBand);
+	spBand.setAnimation(&banderesOnejant);
+	
+	
+	
+>>>>>>> 84a4e9ddd82636999fe8f4af3c4a7f1a228ceac8:exemplesAprofitar/test1background.cpp
 }
 
 void Test1::onResume() {
@@ -56,7 +85,6 @@ void Test1::onEnd()    {
 
 void Test1::event(const sf::Event& event)
  {
-	 Scene::event(event);
 	if (event.type == sf::Event::KeyPressed)
 	{
 		switch(event.key.code)
@@ -107,15 +135,29 @@ void Test1::event(const sf::Event& event)
 
 void Test1::update(const sf::Time& deltatime)
 {
-	Scene::update(deltatime);
+<<<<<<< HEAD:src/test1.cpp
 	koopa.update(deltatime);
 	flag.update(deltatime);
+=======
+	koopa.update(deltatime, floor);
+	std::cout << "peta 1 " << std::endl;
+	spBand.update(deltatime);
+	std::cout << "peta 2 " << std::endl;
+>>>>>>> 84a4e9ddd82636999fe8f4af3c4a7f1a228ceac8:exemplesAprofitar/test1background.cpp
 }
 
 void Test1::draw(sf::RenderWindow& window) const
 {
-	Scene::draw(window);
+<<<<<<< HEAD:src/test1.cpp
 	window.draw(castle);
 	window.draw(flag);
+=======
+	window.draw(spCastell);
+	window.draw(spBand);
+>>>>>>> 84a4e9ddd82636999fe8f4af3c4a7f1a228ceac8:exemplesAprofitar/test1background.cpp
 	koopa.draw(window);
+	
+	
+	
+    window.display();
 }

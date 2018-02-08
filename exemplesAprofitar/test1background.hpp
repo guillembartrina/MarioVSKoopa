@@ -23,14 +23,16 @@ class Test1 : public Scene {
 	void draw(sf::RenderWindow& window) const;
 
 	private:
+	
 
 	//Characters	
 	Koopa koopa;
 
 	//Map
 	Colisions colisions;
-	sf::FloatRect floorC;
-	sf::FloatRect capC;
+	sf::FloatRect floor;
+<<<<<<< HEAD:inc/test1.hpp
+	sf::FloatRect cap;
 	
 	sf::Texture castleTexture;
 	sf::Texture flagTexture;
@@ -38,6 +40,16 @@ class Test1 : public Scene {
 	Animation flagAnimation;
 	AnimatedSprite flag;
 	
+=======
+	sf::Texture texCastell;
+	sf::Texture texBand;
+	sf::Sprite spCastell;
+	Animation banderesOnejant;
+	AnimatedSprite spBand;
+
+
+
+>>>>>>> 84a4e9ddd82636999fe8f4af3c4a7f1a228ceac8:exemplesAprofitar/test1background.hpp
 };
 
 #endif

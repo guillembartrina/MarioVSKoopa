@@ -1,8 +1,17 @@
 
 #include "koopa.hpp"
 
-Koopa::Koopa()
+Koopa::Koopa() : koopa(koopaTexture, &animations[0])
 {
+    velocities[STOP] = 0.f;
+    velocities[WALK] = 0.3f;
+    velocities[RUN] = 0.6f;
+
+    bodyParts[HEAD] = sf::FloatRect(-koopaW/4.f, -koopaH, koopaW/2.f, koopaH/4.f);
+    bodyParts[FEET] = sf::FloatRect(-koopaW/4.f, -koopaH/4.f, koopaW/2.f, koopaH/4.f);
+    bodyParts[L_BODY] = sf::FloatRect(-koopaW/2.f, -koopaH*3/4.f, koopaW/4.f, koopaH/2.f);
+    bodyParts[R_BODY] = sf::FloatRect(koopaW/4.f, -koopaH*3/4.f , koopaW/4.f, koopaH/2.f);
+
     life = maxLife;
     jumping = false;
     setMovement(Direction::RIGHT, Velocity::STOP);
@@ -23,7 +32,7 @@ void Koopa::init()
     koopa.setTexture(koopaTexture);
 
 
-    animations = std::vector<Animation>(Koopa::NUM_A);
+    //animations = std::vector<Animation>(Koopa::NUM_A);
 
     animations[Koopa::IDLE_RIGHT_A].setFrameTime(sf::seconds(0.125f));
 
@@ -70,20 +79,11 @@ void Koopa::update(const sf::Time& deltatime)
 {
     koopa.update(deltatime);
 
-    //REMAKE!!
-
     vel.y += gravity * float(deltatime.asMilliseconds());
 
     koopa.move(vel * float(deltatime.asMilliseconds()));
 
-    int colision = getCurrentColision();
-
-    if(colision >= 0)
-    {
-        koopa.setPosition(koopa.getPosition().x, colisionRects[colision].top);
-        jumping = false;
-        vel.y = 0.f;
-    }
+    checkColisions();
 }
 
 void Koopa::draw(sf::RenderWindow& window) const
@@ -106,13 +106,9 @@ void Koopa::setColisions(const std::vector<sf::FloatRect>& colisions)
     colisionRects = colisions;
 }
 
-int Koopa::getCurrentColision() //REMOVE
+void Koopa::checkColisions()
 {
-    for(unsigned int i = 0; i < colisionRects.size(); ++i)
-    {
-        if(koopa.getGlobalBounds().intersects(colisionRects[i])) return i;
-    }
-    return -1;
+    
 }
 
 void Koopa::setMovement(Koopa::Direction direction, Koopa::Velocity velocity)
