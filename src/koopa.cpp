@@ -17,6 +17,8 @@ Koopa::Koopa() : koopa(koopaTexture, &animations[0])
     jumping = false;
     setMovement(Koopa::Direction::RIGHT, Koopa::Velocity::STOP);
 
+    currentDist = 0.f;
+
     /*
     head.setSize(sf::Vector2f(bodyParts[Koopa::Body::HEAD].width, bodyParts[Koopa::Body::HEAD].height));
     feet.setSize(sf::Vector2f(bodyParts[Koopa::Body::FEET].width, bodyParts[Koopa::Body::FEET].height));
@@ -112,6 +114,8 @@ void Koopa::update(const sf::Time &deltatime)
     if(dmg) vel.x = 0;
     koopa.move(vel * float(deltatime.asMilliseconds()));
 
+    currentDist += vel.x * float(deltatime.asMilliseconds());
+
     if(dmg)
     {
         dmgTime += deltatime;
@@ -140,6 +144,7 @@ void Koopa::update(const sf::Time &deltatime)
         if(insideTime > maxInsideTime)
         {
             inside = false;
+            currentDist = 0.f;
             vel.x = 0;
         }
     }
@@ -370,7 +375,7 @@ void Koopa::jump()
 
 void Koopa::shell()
 {
-    if(vel.x != 0)
+    if(currentDist >= distForAbility && vel.x != 0)
     {
         inside = true;
         insideTime = sf::Time::Zero;

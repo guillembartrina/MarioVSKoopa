@@ -41,6 +41,7 @@ private:
 
   void pauseActiveScene();
   void terminateActiveScene();
+
 };
 
 #endif

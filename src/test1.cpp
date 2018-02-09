@@ -49,20 +49,24 @@ void Test1::onInit()
 	marioWin.setCharacterSize(120);
 	marioWin.setString("MARIO WINS!");
 
-	if (!playingMusic.openFromFile("res/music/playingM.ttf"))
+	/*
+	if (!playingMusic.openFromFile("res/audio/playingM.ogg"))
 	{
-		std::cout << "Error loading <font.ttf>." << std::endl;
+		std::cout << "Error loading <playingM.ogg>." << std::endl;
+	}
+	*/
+
+	/*
+	if (!koopaWinMusic.openFromFile("res/music/koopaM.ogg"))
+	{
+		std::cout << "Error loading <koopaM.ogg>." << std::endl;
 	}
 
-	if (!koopaWinMusic.openFromFile("res/music/koopaM.ttf"))
+	if (!marioWinMusic.openFromFile("res/music/marioM.ogg"))
 	{
-		std::cout << "Error loading <font.ttf>." << std::endl;
+		std::cout << "Error loading <marioM.ogg>." << std::endl;
 	}
-
-	if (!marioWinMusic.openFromFile("res/music/marioM.ttf"))
-	{
-		std::cout << "Error loading <font.ttf>." << std::endl;
-	}
+	*/
 
 	//Map init
 	if (!colisionTexture.loadFromFile("res/img/colisionTexture.png"))
@@ -125,7 +129,7 @@ void Test1::onInit()
 	mario.init();
 	mario.setColisions(colisions.getColisions());
 
-	playingMusic.play();
+	//playingMusic.play();
 }
 
 void Test1::onResume()
@@ -276,14 +280,14 @@ void Test1::update(const sf::Time &deltatime)
 
 	if(!koopa.isAlive())
 	{
-		playingMusic.stop();
-		marioWinMusic.play();
+		//playingMusic.stop();
+		//marioWinMusic.play();
 	}
 
 	if(!mario.isAlive())
 	{
-		playingMusic.stop();
-		koopaWinMusic.play();
+		//playingMusic.stop();
+		//koopaWinMusic.play();
 	}
 }
 
