@@ -3,6 +3,15 @@
 Test1::Test1(Game &game) : Scene(game), flag(flagTexture, &flagAnimation) {}
 Test1::~Test1() {}
 
+	floorC = sf::FloatRect(0, 800, 1000, 88);
+	sf::FloatRect plat1 = sf::FloatRect(0,400,400,40);
+	sf::FloatRect plat2 = sf::FloatRect(600,250,80,40);
+	sf::FloatRect plat3 = sf::FloatRect(800,350,100,50);
+	sf::FloatRect plat4 = sf::FloatRect(600,450,80,40);
+	sf::FloatRect plat5 = sf::FloatRect(350,500,120,50);
+	sf::FloatRect plat6 = sf::FloatRect(600,600,200,50);
+	sf::FloatRect plat7 = sf::FloatRect(0,650,150,50);
+
 void Test1::onInit()
 {
 	Scene::onInit();
@@ -68,10 +77,18 @@ void Test1::onInit()
 	flag.setAnimation(&flagAnimation);
 
 	//Colisions
-	floorC = sf::FloatRect(0, 800, 1000, 88);
+
 
 	colisions.addColision(floorC);
 	colisions.addColision(sf::FloatRect(0, 0, 0, 0));
+	colisions.addColision(plat1);
+	colisions.addColision(plat2);
+	colisions.addColision(plat3);
+	colisions.addColision(plat4);
+	colisions.addColision(plat5);
+	colisions.addColision(plat6);
+	colisions.addColision(plat7);
+
 
 	for (unsigned int i = 0; i < colisions.getNumColisions(); ++i)
 	{
