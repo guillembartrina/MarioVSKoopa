@@ -8,6 +8,8 @@
 #include "colisions.hpp"
 #include "koopa.hpp"
 #include "mario.hpp"
+//#include <SFML/Audio.hpp>
+
 
 class Test1 : public Scene
 {
@@ -30,12 +32,9 @@ class Test1 : public Scene
 	sf::Text charLife;
 	sf::Text charLifeN;
 
-	
-	/*
-	sf::Music playingMusic;
-	sf::Music koopaWinMusic;
-	sf::Music marioWinMusic;
-	*/
+	//sf::Music playingMusic;
+	//sf::Music koopaWinMusic;
+	//sf::Music marioWinMusic;
 
 	//Characters
 	Koopa koopa;

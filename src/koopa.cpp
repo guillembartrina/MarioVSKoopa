@@ -114,7 +114,7 @@ void Koopa::update(const sf::Time &deltatime)
     if(dmg) vel.x = 0;
     koopa.move(vel * float(deltatime.asMilliseconds()));
 
-    currentDist += vel.x * float(deltatime.asMilliseconds());
+    currentDist += abs(vel.x * float(deltatime.asMilliseconds()));
 
     if(dmg)
     {

@@ -50,7 +50,7 @@ void Test1::onInit()
 	marioWin.setString("MARIO WINS!");
 
 	/*
-	if (!playingMusic.openFromFile("res/audio/playingM.ogg"))
+	playingMusic.openFromFile("res/audio/playingM.ogg"))
 	{
 		std::cout << "Error loading <playingM.ogg>." << std::endl;
 	}
@@ -236,7 +236,7 @@ void Test1::update(const sf::Time &deltatime)
 	if (koopa.isAlive() && mario.isAlive())
 	{
 		//std::string pre = std::to_string(koopa.getLifes()) + "   " + std::to_string(mario.getLifes());
-		//charLifeN.setString("Hello");
+		//charLifeN.setString(pre);
 		koopa.update(deltatime);
 		mario.update(deltatime);
 	}

@@ -76,7 +76,7 @@ class Koopa
 
     //Koopa stats
     bool inside;
-    const float distForAbility = 2000.f;
+    const float distForAbility = 1500.f;
     float currentDist;
     bool alive;
     bool dmg;
