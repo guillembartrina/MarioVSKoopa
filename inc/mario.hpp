@@ -34,10 +34,20 @@ class Mario
     void touched();
     bool getDmg();
 
+    bool isJumping();
     bool isAlive() const;
 
-    sf::FloatRect getHead();
-    sf::FloatRect getFeet();
+    enum Body
+    {
+        HEAD = 0,
+        FEET,
+        R_BODY,
+        L_BODY,
+        NUM_B
+    };
+
+
+    sf::FloatRect getBodyPart(Mario::Body bodyPart);
 
     enum Direction
     {
@@ -69,15 +79,6 @@ class Mario
 
     const int marioW = 42;
     const int marioH = 54;
-
-    enum Body
-    {
-        HEAD = 0,
-        FEET,
-        R_BODY,
-        L_BODY,
-        NUM_B
-    };
 
     sf::FloatRect bodyParts[NUM_B];
 

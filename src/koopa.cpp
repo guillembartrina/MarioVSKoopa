@@ -218,22 +218,19 @@ bool Koopa::getDmg()
     return dmg;
 }
 
+bool Koopa::isJumping()
+{
+    return jumping;
+}
+
 bool Koopa::isAlive() const
 {
     return alive;
 }
 
-sf::FloatRect Koopa::getHead()
+sf::FloatRect Koopa::getBodyPart(Koopa::Body bodyPart)
 {
-    sf::FloatRect tmp = bodyParts[Koopa::Body::HEAD];
-    tmp.left += koopa.getPosition().x;
-    tmp.top += koopa.getPosition().y;
-    return tmp;
-}
-
-sf::FloatRect Koopa::getFeet()
-{
-    sf::FloatRect tmp = bodyParts[Koopa::Body::FEET];
+    sf::FloatRect tmp = bodyParts[bodyPart];
     tmp.left += koopa.getPosition().x;
     tmp.top += koopa.getPosition().y;
     return tmp;

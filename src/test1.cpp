@@ -209,12 +209,15 @@ void Test1::update(const sf::Time &deltatime)
 		}
 	}
 
+	/*
 	if(!mario.getDmg() && koopa.getVelY() > 0 && koopa.getFeet().intersects(mario.getHead()))
 	{
 		mario.touched();
 	}
+	*/
 
-	if(!koopa.getDmg() && mario.getVelY() > 0 && mario.getFeet().intersects(koopa.getHead()))
+	bool koopaCond = (mario.getVelY() > 0) || (mario.isJumping() && koopa.isJumping() && mario.getPosition().y < koopa.getPosition().y);
+	if(!koopa.getDmg() && koopaCond && mario.getBodyPart(Mario::Body::FEET).intersects(koopa.getBodyPart(Koopa::Body::HEAD)))
 	{
 		koopa.touched();
 	}

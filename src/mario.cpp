@@ -218,22 +218,19 @@ bool Mario::getDmg()
     return dmg;
 }
 
+bool Mario::isJumping()
+{
+    return jumping;
+}
+
 bool Mario::isAlive() const
 {
     return alive;
 }
 
-sf::FloatRect Mario::getHead()
+sf::FloatRect Mario::getBodyPart(Mario::Body bodyPart)
 {
-    sf::FloatRect tmp = bodyParts[Mario::Body::HEAD];
-    tmp.left += mario.getPosition().x;
-    tmp.top += mario.getPosition().y;
-    return tmp;
-}
-
-sf::FloatRect Mario::getFeet()
-{
-    sf::FloatRect tmp = bodyParts[Mario::Body::FEET];
+    sf::FloatRect tmp = bodyParts[bodyPart];
     tmp.left += mario.getPosition().x;
     tmp.top += mario.getPosition().y;
     return tmp;

@@ -33,10 +33,19 @@ class Koopa
     void touched();
     bool getDmg();
 
+    bool isJumping();
     bool isAlive() const;
 
-    sf::FloatRect getHead();
-    sf::FloatRect getFeet();
+    enum Body
+    {
+        HEAD = 0,
+        FEET,
+        R_BODY,
+        L_BODY,
+        NUM_B
+    };
+
+    sf::FloatRect getBodyPart(Koopa::Body bodyPart);
 
     enum Direction
     {
@@ -69,15 +78,6 @@ class Koopa
     const int koopaW = 32;
     const int koopaH = 48;
 
-    enum Body
-    {
-        HEAD = 0,
-        FEET,
-        R_BODY,
-        L_BODY,
-        NUM_B
-    };
-
     sf::FloatRect bodyParts[NUM_B];
 
     sf::RectangleShape head;
@@ -104,7 +104,9 @@ class Koopa
         IDLE_LEFT_A,
         RIGHT_A,
         LEFT_A,
-        /*IDLE_RUN_A, RUN_A,*/ NUM_A
+        IN_A,
+        OUT_A,
+        NUM_A
     };
     Animation animations[NUM_A];
 };
