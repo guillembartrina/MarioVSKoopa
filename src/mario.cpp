@@ -9,8 +9,8 @@ Mario::Mario() : mario(marioTexture, &animations[0])
 
     bodyParts[Mario::Body::HEAD] = sf::FloatRect(-marioW / 4.f, -marioH, marioW / 2.f, marioH / 4.f);
     bodyParts[Mario::Body::FEET] = sf::FloatRect(-marioW / 4.f, -marioH / 4.f, marioW / 2.f, marioH / 4.f);
-    bodyParts[Mario::Body::L_BODY] = sf::FloatRect(-marioW / 2.f, -marioH * 3 / 4.f, marioW / 4.f, marioH / 3.f);
-    bodyParts[Mario::Body::R_BODY] = sf::FloatRect(marioW / 4.f, -marioH * 3 / 4.f, marioW / 4.f, marioH / 3.f);
+    bodyParts[Mario::Body::L_BODY] = sf::FloatRect(-marioW / 2.f, -marioH * 3 / 4.f, marioW / 4.f, marioH / 2.f);
+    bodyParts[Mario::Body::R_BODY] = sf::FloatRect(marioW / 4.f, -marioH * 3 / 4.f, marioW / 4.f, marioH / 2.f);
 
     alive = true;
     dmg = false;
@@ -19,10 +19,12 @@ Mario::Mario() : mario(marioTexture, &animations[0])
     jumping = false;
     setMovement(Mario::Direction::RIGHT, Mario::Velocity::STOP);
 
+    /*
     head.setSize(sf::Vector2f(bodyParts[Mario::Body::HEAD].width, bodyParts[Mario::Body::HEAD].height));
     feet.setSize(sf::Vector2f(bodyParts[Mario::Body::FEET].width, bodyParts[Mario::Body::FEET].height));
     l_body.setSize(sf::Vector2f(bodyParts[Mario::Body::L_BODY].width, bodyParts[Mario::Body::L_BODY].height));
     r_body.setSize(sf::Vector2f(bodyParts[Mario::Body::R_BODY].width, bodyParts[Mario::Body::R_BODY].height));
+    */
 }
 
 Mario::~Mario()
@@ -77,6 +79,8 @@ void Mario::init()
         animations[Mario::Animations::STOP_A].addFrame(sf::IntRect(i * marioW, marioH * 4, marioW, marioH));
     }
 
+    animations[Mario::Animations::STOP_A].setRepeat(false);
+
     //!!!!!!!!!!!
     marioW = 42;
 
@@ -109,11 +113,13 @@ void Mario::update(const sf::Time &deltatime)
         }
     }
 
+    /*
     head.setPosition(mario.getPosition().x + bodyParts[Mario::Body::HEAD].left, mario.getPosition().y + bodyParts[Mario::Body::HEAD].top);
     feet.setPosition(mario.getPosition().x + bodyParts[Mario::Body::FEET].left, mario.getPosition().y + bodyParts[Mario::Body::FEET].top);
     l_body.setPosition(mario.getPosition().x + bodyParts[Mario::Body::L_BODY].left, mario.getPosition().y + bodyParts[Mario::Body::L_BODY].top);
     r_body.setPosition(mario.getPosition().x + bodyParts[Mario::Body::R_BODY].left, mario.getPosition().y + bodyParts[Mario::Body::R_BODY].top);
-
+    */
+    
     checkColisions();
 }
 
@@ -168,28 +174,21 @@ void Mario::checkColisions()
     sf::FloatRect headRect = bodyParts[Mario::Body::HEAD];
     headRect.left += x;
     headRect.top += y;
-    sf::FloatRect feetRect = bodyParts[Mario::Body::FEET];
-    feetRect.left += x;
-    feetRect.top += y;
-    sf::FloatRect leftRect = bodyParts[Mario::Body::L_BODY];
-    leftRect.left += x;
-    leftRect.top += y;
-    sf::FloatRect rightRect = bodyParts[Mario::Body::R_BODY];
-    rightRect.left += x;
-    rightRect.top += y;
-
     int hCol = getColisionIndex(headRect);
-    int bCol = getColisionIndex(feetRect);
-    int lCol = getColisionIndex(leftRect);
-    int rCol = getColisionIndex(rightRect);
-
-    if (hCol != -1)
+     if (hCol != -1)
     {
         //std::cout << "Head colision!" << std::endl;
         mario.setPosition(mario.getPosition().x, colisionRects[hCol].top + colisionRects[hCol].height + marioH);
         vel.y = 0;
     }
 
+    x = mario.getPosition().x;
+    y = mario.getPosition().y;
+
+    sf::FloatRect feetRect = bodyParts[Mario::Body::FEET];
+    feetRect.left += x;
+    feetRect.top += y;
+    int bCol = getColisionIndex(feetRect);
     if (bCol != -1)
     {
         //std::cout << "Feet colision!" << std::endl;
@@ -198,12 +197,26 @@ void Mario::checkColisions()
         vel.y = 0;
     }
 
+    x = mario.getPosition().x;
+    y = mario.getPosition().y;
+
+    sf::FloatRect leftRect = bodyParts[Mario::Body::L_BODY];
+    leftRect.left += x;
+    leftRect.top += y;
+    int lCol = getColisionIndex(leftRect);
     if (lCol != -1)
     {
         //std::cout << "Left colision!" << std::endl;
         mario.setPosition(colisionRects[lCol].left + colisionRects[lCol].width + marioW / 2.f, mario.getPosition().y);
     }
 
+    x = mario.getPosition().x;
+    y = mario.getPosition().y;
+
+    sf::FloatRect rightRect = bodyParts[Mario::Body::R_BODY];
+    rightRect.left += x;
+    rightRect.top += y;
+    int rCol = getColisionIndex(rightRect);
     if (rCol != -1)
     {
         //std::cout << "Right colision!" << std::endl;
@@ -220,7 +233,7 @@ void Mario::touched()
 {
     --life;
     dmg = true;
-
+    animations[Mario::Animations::STOP_A].setCurrentFrame(0);
     mario.setAnimation(&animations[Mario::Animations::STOP_A]);
 
     dmgTime = sf::Time::Zero;
@@ -259,17 +272,17 @@ void Mario::setMovement(Mario::Direction direction, Mario::Velocity velocity)
     {
     case Mario::Direction::RIGHT:
         vel.x = velocities[velocity];
-        if (velocity == Mario::Velocity::WALK)
+        if (!dmg && velocity == Mario::Velocity::WALK)
             mario.setAnimation(&animations[Mario::Animations::RIGHT_A]);
-        else if (velocity == Mario::Velocity::STOP)
+        else if (!dmg && velocity == Mario::Velocity::STOP)
             mario.setAnimation(&animations[Mario::Animations::IDLE_RIGHT_A]);
         break;
 
     case Mario::Direction::LEFT:
         vel.x = -velocities[velocity];
-        if (velocity == Mario::Velocity::WALK)
+        if (!dmg && velocity == Mario::Velocity::WALK)
             mario.setAnimation(&animations[Mario::Animations::LEFT_A]);
-        else if (velocity == Mario::Velocity::STOP)
+        else if (!dmg && velocity == Mario::Velocity::STOP)
             mario.setAnimation(&animations[Mario::Animations::IDLE_LEFT_A]);
         break;
     }

@@ -3,7 +3,6 @@
 Test1::Test1(Game &game) : Scene(game), flag(flagTexture, &flagAnimation) {}
 Test1::~Test1() {}
 
-	floorC = sf::FloatRect(0, 800, 1000, 88);
 	sf::FloatRect plat1 = sf::FloatRect(0,400,400,40);
 	sf::FloatRect plat2 = sf::FloatRect(600,250,80,40);
 	sf::FloatRect plat3 = sf::FloatRect(800,350,100,50);
@@ -11,6 +10,11 @@ Test1::~Test1() {}
 	sf::FloatRect plat5 = sf::FloatRect(350,500,120,50);
 	sf::FloatRect plat6 = sf::FloatRect(600,600,200,50);
 	sf::FloatRect plat7 = sf::FloatRect(0,650,150,50);
+
+	sf::FloatRect leftW = sf::FloatRect(0,0, 15, 888);
+	sf::FloatRect rightW = sf::FloatRect(985,0, 50 ,888);
+
+
 
 void Test1::onInit()
 {
@@ -45,6 +49,21 @@ void Test1::onInit()
 	marioWin.setCharacterSize(120);
 	marioWin.setString("MARIO WINS!");
 
+	if (!playingMusic.openFromFile("res/music/playingM.ttf"))
+	{
+		std::cout << "Error loading <font.ttf>." << std::endl;
+	}
+
+	if (!koopaWinMusic.openFromFile("res/music/koopaM.ttf"))
+	{
+		std::cout << "Error loading <font.ttf>." << std::endl;
+	}
+
+	if (!marioWinMusic.openFromFile("res/music/marioM.ttf"))
+	{
+		std::cout << "Error loading <font.ttf>." << std::endl;
+	}
+
 	//Map init
 	if (!colisionTexture.loadFromFile("res/img/colisionTexture.png"))
 	{
@@ -78,9 +97,8 @@ void Test1::onInit()
 
 	//Colisions
 
-
+	floorC = sf::FloatRect(0, 800, 1000, 88);
 	colisions.addColision(floorC);
-	colisions.addColision(sf::FloatRect(0, 0, 0, 0));
 	colisions.addColision(plat1);
 	colisions.addColision(plat2);
 	colisions.addColision(plat3);
@@ -88,6 +106,8 @@ void Test1::onInit()
 	colisions.addColision(plat5);
 	colisions.addColision(plat6);
 	colisions.addColision(plat7);
+	colisions.addColision(leftW);
+	colisions.addColision(rightW);
 
 
 	for (unsigned int i = 0; i < colisions.getNumColisions(); ++i)
@@ -104,6 +124,8 @@ void Test1::onInit()
 
 	mario.init();
 	mario.setColisions(colisions.getColisions());
+
+	playingMusic.play();
 }
 
 void Test1::onResume()
@@ -156,8 +178,8 @@ void Test1::event(const sf::Event &event)
 			if(!mario.getDmg()) mario.jump();
 			break;
 
-		case sf::Keyboard::P:
-			mario.touched();
+		case sf::Keyboard::Down:
+			koopa.shell();
 			break;
 		
 
@@ -224,6 +246,12 @@ void Test1::update(const sf::Time &deltatime)
 		}
 	}
 
+	bool koopaCond = (mario.getVelY() > 0) || (mario.isJumping() && koopa.isJumping() && mario.getPosition().y < koopa.getPosition().y);
+	if(!koopa.getDmg() && koopaCond && mario.getBodyPart(Mario::Body::FEET).intersects(koopa.getBodyPart(Koopa::Body::HEAD)))
+	{
+		koopa.touched();
+	}
+
 	bool marioCond = koopa.isInside();
 	bool koopaHitbox = false;
 	if(marioCond)
@@ -235,19 +263,27 @@ void Test1::update(const sf::Time &deltatime)
 						koopa.getBodyPart(Koopa::Body::L_BODY).intersects(mario.getBodyPart(Mario::Body::L_BODY)) ||
 						koopa.getBodyPart(Koopa::Body::L_BODY).intersects(mario.getBodyPart(Mario::Body::HEAD)) ||
 						koopa.getBodyPart(Koopa::Body::FEET).intersects(mario.getBodyPart(Mario::Body::R_BODY)) ||
-						koopa.getBodyPart(Koopa::Body::FEET).intersects(mario.getBodyPart(Mario::Body::R_BODY)) ||
-						koopa.getBodyPart(Koopa::Body::FEET).intersects(mario.getBodyPart(Mario::Body::R_BODY));
+						koopa.getBodyPart(Koopa::Body::FEET).intersects(mario.getBodyPart(Mario::Body::L_BODY)) ||
+						koopa.getBodyPart(Koopa::Body::FEET).intersects(mario.getBodyPart(Mario::Body::HEAD));
 	}
+
+	std::cout << koopaHitbox << std::endl;
 
 	if(!mario.getDmg() && marioCond && koopaHitbox)
 	{
-		koopa.touched();
+		mario.touched();
 	}
 
-	bool koopaCond = (mario.getVelY() > 0) || (mario.isJumping() && koopa.isJumping() && mario.getPosition().y < koopa.getPosition().y);
-	if(!koopa.getDmg() && koopaCond && mario.getBodyPart(Mario::Body::FEET).intersects(koopa.getBodyPart(Koopa::Body::HEAD)))
+	if(!koopa.isAlive())
 	{
-		koopa.touched();
+		playingMusic.stop();
+		marioWinMusic.play();
+	}
+
+	if(!mario.isAlive())
+	{
+		playingMusic.stop();
+		koopaWinMusic.play();
 	}
 }
 

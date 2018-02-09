@@ -25,9 +25,11 @@ class Koopa
 
     float getVelY();
 
+
     void setColisions(const std::vector<sf::FloatRect> &rects);
     unsigned int getColisionIndex(const sf::FloatRect &box);
     void checkColisions();
+    void updateColisions();
 
     int getLifes();
     void touched();
@@ -63,18 +65,27 @@ class Koopa
 
     void setMovement(Koopa::Direction direction, Koopa::Velocity velocity);
     void jump();
+    void shell();
 
   private:
     const float gravity = 0.002f;
+
+
 
     std::vector<sf::FloatRect> colisionRects;
 
     //Koopa stats
     bool inside;
+    //const float distForAbility = 100.f;
+    //float currentDist;
     bool alive;
     bool dmg;
+
     sf::Time dmgTime;
     sf::Time maxDmgTime = sf::seconds(1.5f);
+
+    sf::Time maxInsideTime = sf::seconds(7.f);
+    sf::Time insideTime;
 
     int koopaW = 32;
     int koopaH = 48;

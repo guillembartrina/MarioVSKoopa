@@ -30,6 +30,10 @@ class Test1 : public Scene
 	sf::Text charLife;
 	sf::Text charLifeN;
 
+	sf::Music playingMusic;
+	sf::Music koopaWinMusic;
+	sf::Music marioWinMusic;
+
 	//Characters
 	Koopa koopa;
 	Mario mario;

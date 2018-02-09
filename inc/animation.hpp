@@ -29,6 +29,8 @@ public:
 	void next();
 	void prev();
 
+	bool hasEnded();
+
 	bool isPlaying() const;
 
 	void setRepeat(bool repeat);

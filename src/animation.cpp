@@ -67,7 +67,14 @@ void Animation::stop() {
 
 void Animation::next() {
 	if (!frames.empty()) {
-		currentFrame = (currentFrame + 1) % getNumberOfFrames();
+		if(!repeating && getCurrentFrameIndex() == frames.size()-1)
+		{
+
+		}
+		else
+		{
+			currentFrame = (currentFrame + 1) % getNumberOfFrames();
+		}
 	}
 }
 
@@ -84,3 +91,8 @@ void Animation::prev() {
 bool Animation::isPlaying() const { return playing; }
 
 void Animation::setRepeat(bool repeat) { repeating = repeat; }
+
+bool Animation::hasEnded()
+{
+	return getCurrentFrameIndex() == frames.size()-1;
+}
