@@ -16,6 +16,9 @@ public:
 	void onEnd() final;
 
 	void event(const sf::Event& event) final;
+	void draw(sf::RenderWindow& window) const final;
+private:
+	sf::Music music;
 };
 
 #endif

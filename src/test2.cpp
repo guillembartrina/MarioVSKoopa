@@ -30,3 +30,21 @@ void Test2::event(const sf::Event& event) {
     }
   }
 }
+void Test2::draw(sf::RenderWindow& window) const {
+	sf::Text credits;
+	sf::Font font;
+	font.loadFromFile("res/fonts/font.ttf");
+	credits.setFont(font);
+	credits.setString("Ponc, Guillem and Marc crafted this wonderful masterpiece");
+	credits.setPosition(20,333);
+	credits.setFillColor(sf::Color::Red);
+	sf::Text SS;
+        SS.setFont(font);
+        SS.setString("SLAVA STALIN");
+        SS.setPosition(400,444);
+        SS.setFillColor(sf::Color::Red);
+	SS.setCharacterSize(68);
+	window.draw(credits);
+	window.draw(SS);
+
+}
