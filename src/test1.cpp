@@ -34,7 +34,7 @@ void Test1::onInit()
 	charLife.setFillColor(sf::Color::Black);
 	charLife.setString("KOOPA  -  MARIO");
 
-	charLifeN.setPosition(500, 100);
+	charLifeN.setPosition(750, 70);
 	charLifeN.setString("-");
 
 	koopaWin.setPosition(150, 300);
@@ -49,24 +49,24 @@ void Test1::onInit()
 	marioWin.setCharacterSize(120);
 	marioWin.setString("MARIO WINS!");
 
-	/*
-	playingMusic.openFromFile("res/audio/playingM.ogg"))
+	
+	if (!playingMusic.openFromFile("res/audio/playingM.ogg"))
 	{
 		std::cout << "Error loading <playingM.ogg>." << std::endl;
 	}
-	*/
+	
 
-	/*
-	if (!koopaWinMusic.openFromFile("res/music/koopaM.ogg"))
+	
+	if (!koopaWinMusic.openFromFile("res/audio/koopaM.ogg"))
 	{
 		std::cout << "Error loading <koopaM.ogg>." << std::endl;
 	}
 
-	if (!marioWinMusic.openFromFile("res/music/marioM.ogg"))
+	if (!marioWinMusic.openFromFile("res/audio/marioM.ogg"))
 	{
 		std::cout << "Error loading <marioM.ogg>." << std::endl;
 	}
-	*/
+	
 
 	//Map init
 	if (!colisionTexture.loadFromFile("res/img/colisionTexture.png"))
@@ -129,7 +129,7 @@ void Test1::onInit()
 	mario.init();
 	mario.setColisions(colisions.getColisions());
 
-	//playingMusic.play();
+	playingMusic.play();
 }
 
 void Test1::onResume()
@@ -235,8 +235,8 @@ void Test1::update(const sf::Time &deltatime)
 	flag.update(deltatime);
 	if (koopa.isAlive() && mario.isAlive())
 	{
-		//std::string pre = std::to_string(koopa.getLifes()) + "   " + std::to_string(mario.getLifes());
-		//charLifeN.setString(pre);
+		std::string pre = std::to_string(koopa.getLifes()) + "      " + std::to_string(mario.getLifes());
+		charLifeN.setString(pre);
 		koopa.update(deltatime);
 		mario.update(deltatime);
 	}
@@ -280,14 +280,14 @@ void Test1::update(const sf::Time &deltatime)
 
 	if(!koopa.isAlive())
 	{
-		//playingMusic.stop();
-		//marioWinMusic.play();
+		playingMusic.stop();
+		marioWinMusic.play();
 	}
 
 	if(!mario.isAlive())
 	{
-		//playingMusic.stop();
-		//koopaWinMusic.play();
+		playingMusic.stop();
+		koopaWinMusic.play();
 	}
 }
 
@@ -306,7 +306,7 @@ void Test1::draw(sf::RenderWindow &window) const
 	mario.draw(window);
 
 	window.draw(charLife);
-	//window.draw(charLifeN);
+	window.draw(charLifeN);
 
 	if (!koopa.isAlive())
 	{
