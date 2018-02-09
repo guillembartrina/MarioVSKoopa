@@ -34,6 +34,7 @@ class Koopa
     bool getDmg();
 
     bool isJumping();
+    bool isInside();
     bool isAlive() const;
 
     enum Body
@@ -69,14 +70,14 @@ class Koopa
     std::vector<sf::FloatRect> colisionRects;
 
     //Koopa stats
-
+    bool inside;
     bool alive;
     bool dmg;
     sf::Time dmgTime;
     sf::Time maxDmgTime = sf::seconds(1.5f);
 
-    const int koopaW = 32;
-    const int koopaH = 48;
+    int koopaW = 32;
+    int koopaH = 48;
 
     sf::FloatRect bodyParts[NUM_B];
 
@@ -106,7 +107,9 @@ class Koopa
         LEFT_A,
         IN_A,
         OUT_A,
-        NUM_A
+        STOP_A,
+        NUM_A,
+
     };
     Animation animations[NUM_A];
 };

@@ -43,7 +43,6 @@ class Test1 : public Scene
 	std::vector<sf::Sprite> colisionsS;
 	Colisions colisions;
 	sf::FloatRect floorC;
-	sf::FloatRect capC;
 
 	sf::Texture castleTexture;
 	sf::Texture flagTexture;

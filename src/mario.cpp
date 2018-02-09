@@ -67,6 +67,19 @@ void Mario::init()
         animations[Mario::Animations::LEFT_A].addFrame(sf::IntRect(i * marioW, marioH * 1, marioW, marioH));
     }
 
+    animations[Mario::Animations::STOP_A].setFrameTime(sf::seconds(0.125f));
+    
+    //!!!!!!!!!!!
+    marioW = 46;
+
+    for (int i = 0; i < 11; ++i)
+    {
+        animations[Mario::Animations::STOP_A].addFrame(sf::IntRect(i * marioW, marioH * 4, marioW, marioH));
+    }
+
+    //!!!!!!!!!!!
+    marioW = 42;
+
     mario.setOrigin(sf::Vector2f(marioW / 2, marioH));
     mario.setPosition(sf::Vector2f(500.f, 400.f));
     mario.setAnimation(&animations[Mario::Animations::IDLE_RIGHT_A]);
@@ -78,6 +91,8 @@ void Mario::update(const sf::Time &deltatime)
 
     vel.y += gravity * float(deltatime.asMilliseconds());
 
+    if(dmg) vel.x = 0;
+    
     mario.move(vel * float(deltatime.asMilliseconds()));
 
     if(dmg)
@@ -205,6 +220,8 @@ void Mario::touched()
 {
     --life;
     dmg = true;
+
+    mario.setAnimation(&animations[Mario::Animations::STOP_A]);
 
     dmgTime = sf::Time::Zero;
     if (life <= 0)

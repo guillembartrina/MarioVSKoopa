@@ -12,6 +12,7 @@ Koopa::Koopa() : koopa(koopaTexture, &animations[0])
     bodyParts[Koopa::Body::L_BODY] = sf::FloatRect(-koopaW / 2.f, -koopaH * 3 / 4.f, koopaW / 4.f, koopaH * 2 / 5.f);
     bodyParts[Koopa::Body::R_BODY] = sf::FloatRect(koopaW / 4.f, -koopaH * 3 / 4.f, koopaW / 4.f, koopaH * 2 / 5.f);
 
+    inside = false;
     alive = true;
     dmg = false;
 
@@ -67,6 +68,33 @@ void Koopa::init()
         animations[Koopa::Animations::LEFT_A].addFrame(sf::IntRect(i * koopaW, koopaH * 2, koopaW, koopaH));
     }
 
+    //!!!!!!
+    koopaW = 48;
+
+    animations[Koopa::Animations::IN_A].setFrameTime(sf::seconds(0.075f));
+
+    for (int i = 0; i < 11; ++i)
+    {
+        animations[Koopa::Animations::IN_A].addFrame(sf::IntRect(i * koopaW, koopaH * 4, koopaW, koopaH));
+    }
+
+    animations[Koopa::Animations::OUT_A].setFrameTime(sf::seconds(0.075f));
+
+    for (int i = 0; i < 11; ++i)
+    {
+        animations[Koopa::Animations::OUT_A].addFrame(sf::IntRect(i * koopaW, koopaH * 5, koopaW, koopaH));
+    }
+
+    //!!!!!!
+    koopaW = 32;
+
+    animations[Koopa::Animations::STOP_A].setFrameTime(sf::seconds(0.075f));
+
+    for (int i = 0; i < 7; ++i)
+    {
+        animations[Koopa::Animations::STOP_A].addFrame(sf::IntRect(i * koopaW, koopaH * 6, koopaW, 25));
+    }
+
     koopa.setOrigin(sf::Vector2f(koopaW / 2, koopaH));
     koopa.setPosition(sf::Vector2f(100.f, 100.f));
     koopa.setAnimation(&animations[Koopa::Animations::IDLE_RIGHT_A]);
@@ -78,6 +106,7 @@ void Koopa::update(const sf::Time &deltatime)
 
     vel.y += gravity * float(deltatime.asMilliseconds());
 
+    if(dmg) vel.x = 0;
     koopa.move(vel * float(deltatime.asMilliseconds()));
 
     if(dmg)
@@ -147,7 +176,7 @@ void Koopa::checkColisions()
     float x = koopa.getPosition().x;
     float y = koopa.getPosition().y;
 
-    //std::cout << "X: " << x << ", Y:" << y << std::endl;
+    std::cout << "X: " << x << ", Y:" << y << std::endl;
 
     sf::FloatRect headRect = bodyParts[Koopa::Body::HEAD];
     headRect.left += x;
@@ -169,14 +198,14 @@ void Koopa::checkColisions()
 
     if (hCol != -1)
     {
-        //std::cout << "Head colision!" << std::endl;
+        std::cout << "Head colision!" << std::endl;
         koopa.setPosition(koopa.getPosition().x, colisionRects[hCol].top + colisionRects[hCol].height + koopaH);
         vel.y = 0;
     }
     
     if (bCol != -1)
     {
-        //std::cout << "Feet colision!" << std::endl;
+        std::cout << "Feet colision!" << std::endl;
         koopa.setPosition(koopa.getPosition().x, colisionRects[bCol].top);
         jumping = false;
         vel.y = 0;
@@ -184,13 +213,13 @@ void Koopa::checkColisions()
 
     if (lCol != -1)
     {
-        //std::cout << "Left colision!" << std::endl;
+        std::cout << "Left colision!" << std::endl;
         koopa.setPosition(colisionRects[lCol].left + colisionRects[lCol].width + koopaW / 2.f, koopa.getPosition().y);
     }
 
     if (rCol != -1)
     {
-        //std::cout << "Right colision!" << std::endl;
+        std::cout << "Right colision!" << std::endl;
         koopa.setPosition(colisionRects[rCol].left - koopaW / 2.f, koopa.getPosition().y);
     }
 }
@@ -204,6 +233,8 @@ void Koopa::touched()
 {
     --life;
     dmg = true;
+
+    koopa.setAnimation(&animations[Koopa::Animations::STOP_A]);
 
     dmgTime = sf::Time::Zero;
 
@@ -221,6 +252,11 @@ bool Koopa::getDmg()
 bool Koopa::isJumping()
 {
     return jumping;
+}
+
+bool Koopa::isInside()
+{
+    return inside;
 }
 
 bool Koopa::isAlive() const

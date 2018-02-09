@@ -69,10 +69,9 @@ void Test1::onInit()
 
 	//Colisions
 	floorC = sf::FloatRect(0, 800, 1000, 88);
-	capC = sf::FloatRect(0, 500, 200, 100);
 
 	colisions.addColision(floorC);
-	colisions.addColision(capC);
+	colisions.addColision(sf::FloatRect(0, 0, 0, 0));
 
 	for (unsigned int i = 0; i < colisions.getNumColisions(); ++i)
 	{
@@ -125,7 +124,7 @@ void Test1::event(const sf::Event &event)
 			break;
 
 		case sf::Keyboard::Up:
-			koopa.jump();
+			if(!koopa.getDmg()) koopa.jump();
 			break;
 
 		case sf::Keyboard::D:
@@ -137,11 +136,10 @@ void Test1::event(const sf::Event &event)
 			break;
 
 		case sf::Keyboard::W:
-			mario.jump();
+			if(!mario.getDmg()) mario.jump();
 			break;
 
 		case sf::Keyboard::P:
-			koopa.touched();
 			mario.touched();
 			break;
 		
@@ -209,12 +207,25 @@ void Test1::update(const sf::Time &deltatime)
 		}
 	}
 
-	/*
-	if(!mario.getDmg() && koopa.getVelY() > 0 && koopa.getFeet().intersects(mario.getHead()))
+	bool marioCond = koopa.isInside();
+	bool koopaHitbox = false;
+	if(marioCond)
 	{
-		mario.touched();
+	koopaHitbox = 		koopa.getBodyPart(Koopa::Body::R_BODY).intersects(mario.getBodyPart(Mario::Body::R_BODY)) ||
+						koopa.getBodyPart(Koopa::Body::R_BODY).intersects(mario.getBodyPart(Mario::Body::L_BODY)) ||
+						koopa.getBodyPart(Koopa::Body::R_BODY).intersects(mario.getBodyPart(Mario::Body::HEAD)) ||
+						koopa.getBodyPart(Koopa::Body::L_BODY).intersects(mario.getBodyPart(Mario::Body::R_BODY)) ||
+						koopa.getBodyPart(Koopa::Body::L_BODY).intersects(mario.getBodyPart(Mario::Body::L_BODY)) ||
+						koopa.getBodyPart(Koopa::Body::L_BODY).intersects(mario.getBodyPart(Mario::Body::HEAD)) ||
+						koopa.getBodyPart(Koopa::Body::FEET).intersects(mario.getBodyPart(Mario::Body::R_BODY)) ||
+						koopa.getBodyPart(Koopa::Body::FEET).intersects(mario.getBodyPart(Mario::Body::R_BODY)) ||
+						koopa.getBodyPart(Koopa::Body::FEET).intersects(mario.getBodyPart(Mario::Body::R_BODY));
 	}
-	*/
+
+	if(!mario.getDmg() && marioCond && koopaHitbox)
+	{
+		koopa.touched();
+	}
 
 	bool koopaCond = (mario.getVelY() > 0) || (mario.isJumping() && koopa.isJumping() && mario.getPosition().y < koopa.getPosition().y);
 	if(!koopa.getDmg() && koopaCond && mario.getBodyPart(Mario::Body::FEET).intersects(koopa.getBodyPart(Koopa::Body::HEAD)))

@@ -77,8 +77,8 @@ class Mario
     sf::Time dmgTime;
     sf::Time maxDmgTime = sf::seconds(1.5f);
 
-    const int marioW = 42;
-    const int marioH = 54;
+    int marioW = 42;
+    int marioH = 54;
 
     sf::FloatRect bodyParts[NUM_B];
 
@@ -106,7 +106,8 @@ class Mario
         IDLE_LEFT_A,
         RIGHT_A,
         LEFT_A,
-        /*IDLE_RUN_A, RUN_A,*/ NUM_A
+        STOP_A,
+        NUM_A
     };
     Animation animations[NUM_A];
 };
